@@ -1,30 +1,25 @@
 #!/usr/bin/python3
 """
-This module defines a func for minOperations
+module that defines the functions minOperations and prime_factorization.
 """
 
 
 def minOperations(n):
-    if n <= 1:
+    """calculates the fewest number of operations needed to result in n """
+    if type(n) is not int or n <= 0:
         return 0
+    return sum(prime_factorization(n))
 
-    """Initialize an array to store the minimum operations
-    needed for each position.
-    """
-    dp = [float('inf')] * (n + 1)
 
-    # Base case: 0 operations needed to have 1 H
-    dp[1] = 0
+def prime_factorization(n):
+    """function that finds the prime factorization of a number"""
+    factors = []
+    divisor = 2
 
-    for i in range(2, n + 1):
-        # Check if i is divisible by any number from 2 to sqrt(i)
-        for j in range(2, int(i**0.5) + 1):
-            if i % j == 0:
-                dp[i] = min(dp[i], dp[j] + i // j)
-                dp[i] = min(dp[i], dp[i // j] + j)
+    while n > 1:
+        while n % divisor == 0:
+            factors.append(divisor)
+            n //= divisor
+        divisor += 1
 
-        # If i is a prime number
-        if dp[i] == float('inf'):
-            dp[i] = i
-
-    return dp[n]
+    return factors
